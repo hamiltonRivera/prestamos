@@ -10,11 +10,6 @@ use Carbon\Carbon;
 
 class Contratos extends Component
 {
-<<<<<<< HEAD
-    public $fecha, $nroContrato, $busqueda, $cliente_sel, $cliente_id,
-        $monto, $tasa, $periodo = "mensual", $mto, $plazo, $garantia;
-=======
->>>>>>> 97f0ab136d9e017bdafe642c6be5532bf5b6c489
     public $periodos = [
         'diario', 'semanal', 'mensual', 'bimensual', 'trimestral', 'semestral', 'anual'
     ];
@@ -26,29 +21,6 @@ class Contratos extends Component
         ]);
     }
 
-<<<<<<< HEAD
-    public function contratos()
-    {
-      $this->validate(
-          [
-            'fecha' =>'required|date',
-            'nroContrato' =>'required|min:1',
-            'cliente_id' =>'required|numeric',
-            'monto'=>'required|numeric',
-            'mto'=>'required|numeric',
-            'tasa'=>'required|numeric',
-            'periodo'=>'required|min:4',
-            'plazo'=>'required|numeric',
-            'garantia'=>'required|min:4',
-          ]);
-
-          dd('validate');
-
-     $contrato = Contrato::updateOrCreate(['id' => $this->contrato_id],
-       []
-
-    );
-=======
     public $fecha, $nroContrato, $busqueda, $cliente_sel, $cliente_id,
         $monto, $tasa, $periodo = 'mensual', $mto, $plazo, $garantia, $contrato_id;
     public $intereses, $monto_mto, $total, $cuotas, $status;
@@ -191,6 +163,5 @@ class Contratos extends Component
         // cuota =  monto * factor
         $this->cuotas = floatval($this->monto) * floatval($factor);
         $this->total = $this->cuotas * $this->plazo;
->>>>>>> 97f0ab136d9e017bdafe642c6be5532bf5b6c489
     }
 }
