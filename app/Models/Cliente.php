@@ -22,4 +22,9 @@ class Cliente extends Model
     {
         return $this->hasManyThrough(Pendiente::class, Contrato::class);
     }
+
+    public function fiadores()
+    {
+        return $this->hasMany(Fiador::class);
+    }
 }

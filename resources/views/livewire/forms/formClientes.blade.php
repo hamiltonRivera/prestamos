@@ -29,13 +29,24 @@
 
         <div class="flex container px-4 py-8 sm:px-10 gap-4">
             <div class="w-1/2">
+                <div class="grid grid-cols-2">
+                    <label for="nombres_apellidos" class="flex text-sm font-medium text-gray-700 leading-5">
+                        Fiador  {{ $pic }}
+                        <div class="mt-1 rounded-md shadow-sm">
+                            <input wire:click="$toggle('pic')" id="pic" type="checkbox" class="appearance-none block left-2 px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('pic') border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red @enderror" />
+                        </div>
+                    </label>
+
+                </div>
                 <div>
                     <label for="foto" class="block text-sm font-medium text-gray-700 leading-5">
                         Agregar Imagen
                     </label>
 
                     <div class="mt-1 rounded-md shadow-sm">
-                        <input wire:model.lazy="foto" id="foto" type="file" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('foto') border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red @enderror" />
+                        <input wire:model.lazy="foto" id="foto" type="file" required
+                        {{ $pic ? '' : 'disabled' }}
+                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('foto') border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red @enderror" />
                     </div>
 
                     @error('foto')
@@ -228,14 +239,14 @@
 
         <div class="px-4">
             <span class="block w-full rounded-md shadow-sm">
-                <button wire:click="cOECliente()" class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+                <button wire:click="cOEPic()" class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
                     {{ $editando ? 'Actualizar' : 'Registrar'}}
                 </button>
             </span>
         </div>
         <div class="px-4">
             <span class="block w-full rounded-md shadow-sm">
-                <button wire:click="$set('crearCliente', false)" class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-500 focus:outline-none focus:border-red-700 focus:ring-red active:bg-red-700 transition duration-150 ease-in-out">
+                <button wire:click="$set('manejarPic', false)" class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-500 focus:outline-none focus:border-red-700 focus:ring-red active:bg-red-700 transition duration-150 ease-in-out">
                     Cancelar
                 </button>
             </span>

@@ -6,7 +6,7 @@
         </div>
         @endif
     </div>
-    <button wire:click="$toggle('crearCliente')">Crear Cliente</button>
+    <button wire:click="$set('manejarPic', true)">Manejar PICs</button>
     @forelse($clientes as $cliente)
     <img class="w-20 h-20 rounded-full" src="{{ asset("storage/imagenes/clientes/$cliente->imagen") }}" alt="">
     {{ $cliente->nombres_apellidos }}
@@ -16,7 +16,7 @@
     <p>No hay clientes registrados</p>
     @endforelse
 
-    @if($crearCliente)
+    @if($manejarPic)
     <div class="absolute bg-black inset-0">
         @include('livewire.forms.formClientes')
     </div>

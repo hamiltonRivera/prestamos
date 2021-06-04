@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\WithFileUploads;
 use Livewire\Component;
 use App\Models\Cliente;
+use App\Models\Fiador;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -12,7 +13,7 @@ class Clientes extends Component
 {
     use WithFileUploads;
     public $cliente_id, $dni, $nombres_apellidos, $direccion, $telefono, $email, $sexo, $nivel_academico, $estado_civil,
-        $fecha_nacimiento, $profesion, $departamento, $municipio, $crearCliente = false, $editando = false,
+        $fecha_nacimiento, $profesion, $departamento, $municipio, $manejarPic = false, $editando = false,
         $eliminando = false, $foto, $imagen, $nombre_foto;
 
     public $sexos = [
@@ -82,10 +83,12 @@ class Clientes extends Component
         ]);
     }
 
-    public function cOECliente()
+    public $pic = true;
+
+    public function cOEPic()
     {
         $this->validate();
-        $cliente = Cliente::updateOrCreate(['id' => $this->cliente_id], [
+        $ente = [
             'dni' => $this->dni,
             'nombres_apellidos' => $this->nombres_apellidos,
             'fecha_nac' => $this->fecha_nacimiento,
@@ -98,10 +101,19 @@ class Clientes extends Component
             'nivel_academico' => $this->nivel_academico,
             'profesion' => $this->profesion,
             'estado_civil' => $this->estado_civil,
-        ]);
-        $this->cliente_id = $cliente->id;
-        $this->crearCliente = false;
+        ];
 
+        if ($this->pic) {
+            $cliente = Cliente::updateOrCreate(['id' => $this->cliente_id], $ente);
+            $this->cliente_id = $cliente->id;
+            $this->manejarPic = false;
+        } else {
+            $fiador = Fiador::updateOrCreate(['id' => $this->fiador_id], $ente);
+            $this->fiador_id = $fiador->id;
+            $this->manejarPic = false;
+        }
+
+        // solo si existe foto
         if ($this->editando && $cliente->imagen) {
             $this->eliminar_foto($cliente->imagen);
         }
@@ -111,44 +123,61 @@ class Clientes extends Component
             $cliente->update(['imagen' => $this->nombre_foto]);
         }
 
-        session()->flash('message', $this->editando ? 'Cliente Editado Con Éxito' : 'Cliente Creado Con Éxito');
+        session()->flash('message', $this->pic ? ($this->editando ? 'Cliente Editado Con Éxito' : 'Cliente Creado Con Éxito') : ($this->editando ? 'Fiador Editado Con Éxito' : 'Fiador Creado Con Éxito'));
         $this->resetCliente();
     }
 
     public function seleccionar($id)
     {
         $this->editando = true;
-        $cliente = Cliente::whereId($id)->first();
-        $this->cliente_id = $cliente->id;
-        $this->dni = $cliente->dni;
-        $this->nombres_apellidos = $cliente->nombres_apellidos;
-        $this->fecha_nacimiento = $cliente->fecha_nac;
-        $this->direccion = $cliente->direccion;
-        $this->telefono = $cliente->telefono;
-        $this->email = $cliente->email;
-        $this->departamento = $cliente->departamento;
-        $this->municipio = $cliente->municipio;
-        $this->sexo = $cliente->sexo;
-        $this->nivel_academico = $cliente->nivel_academico;
-        $this->profesion = $cliente->profesion;
-        $this->estado_civil = $cliente->estado_civil;
-        $this->imagen = $cliente->imagen;
-        $this->crearCliente = true;
+
+        if ($this->pic) {
+            $ente = Cliente::whereId($id)->first();
+            $this->cliente_id = $ente->id;
+        } else {
+            $ente = Fiador::whereId($id)->first();
+            $this->fiador_id = $ente->id;
+        }
+
+        $this->dni = $ente->dni;
+        $this->nombres_apellidos = $ente->nombres_apellidos;
+        $this->fecha_nacimiento = $ente->fecha_nac;
+        $this->direccion = $ente->direccion;
+        $this->telefono = $ente->telefono;
+        $this->email = $ente->email;
+        $this->departamento = $ente->departamento;
+        $this->municipio = $ente->municipio;
+        $this->sexo = $ente->sexo;
+        $this->nivel_academico = $ente->nivel_academico;
+        $this->profesion = $ente->profesion;
+        $this->estado_civil = $ente->estado_civil;
+        $this->imagen = $ente->imagen;
+        $this->manejarPic = true;
     }
 
     public function confirmar($id)
     {
         $this->eliminando = true;
-        $this->cliente_id = $id;
+
+        if ($this->pic) {
+            $this->cliente_id = $id;
+        } else {
+            $this->fiador_id = $id;
+        }
     }
 
     public function eliminar()
     {
-        $cliente = Cliente::whereId($this->cliente_id)->first(['id', 'imagen']);
-        if ($cliente->imagen) {
-            $this->eliminar_foto($cliente->imagen);
+        if ($this->pic) {
+            $cliente = Cliente::whereId($this->cliente_id)->first(['id', 'imagen']);
+            if ($cliente->imagen) {
+                $this->eliminar_foto($cliente->imagen);
+            }
+            Cliente::destroy($this->cliente_id);
+        } else {
+            Fiador::destroy($this->fiador_id);
         }
-        Cliente::destroy($this->cliente_id);
+
         session()->flash('message', 'Cliente Eliminado Con Éxito');
         $this->eliminando = false;
     }
