@@ -29,18 +29,19 @@
 
         <div class="flex container px-4 py-8 sm:px-10 gap-4">
             <div class="w-1/2">
-                <div class="grid grid-cols-2">
-                    <label for="nombres_apellidos" class="flex text-sm font-medium text-gray-700 leading-5">
-                        Fiador  {{ $pic }}
-                        <div class="mt-1 rounded-md shadow-sm">
-                            <input wire:click="$toggle('pic')" id="pic" type="checkbox" class="appearance-none block left-2 px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('pic') border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red @enderror" />
-                        </div>
-                    </label>
 
-                </div>
                 <div>
-                    <label for="foto" class="block text-sm font-medium text-gray-700 leading-5">
+                    <label for="foto" class="grid grid-cols-2 text-sm font-medium text-gray-700 leading-5">
                         Agregar Imagen
+                        <div class="grid grid-cols-2">
+                            <label for="nombres_apellidos" class="flex text-sm font-medium text-gray-700 leading-5">
+                                Fiador
+                                <div class="mt-1 rounded-md shadow-sm">
+                                    <input wire:click="$toggle('pic')" id="pic" type="checkbox" class="appearance-none block ml-2 px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('pic') border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red @enderror" />
+                                </div>
+                            </label>
+
+                        </div>
                     </label>
 
                     <div class="mt-1 rounded-md shadow-sm">

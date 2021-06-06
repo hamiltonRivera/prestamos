@@ -83,7 +83,7 @@ class Clientes extends Component
         ]);
     }
 
-    public $pic = true;
+    public $pic = true, $fiador_id;
 
     public function cOEPic()
     {

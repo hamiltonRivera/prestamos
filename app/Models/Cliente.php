@@ -25,6 +25,6 @@ class Cliente extends Model
 
     public function fiadores()
     {
-        return $this->hasMany(Fiador::class);
+        return $this->hasManyThrough(Fiador::class, Contrato::class);
     }
 }

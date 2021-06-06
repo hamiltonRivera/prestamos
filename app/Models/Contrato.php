@@ -20,6 +20,11 @@ class Contrato extends Model
 
     public function pendientes()
     {
-        return $this->hasMany(Pendiente::class)->where('status', 'p');
+        return $this->hasMany(Pendiente::class);
+    }
+
+    public function fiadores()
+    {
+        return $this->hasMany(Fiador::class);
     }
 }
